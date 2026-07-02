@@ -86,3 +86,14 @@ def log_step(df: pd.DataFrame, step_name: str | None = None) -> pd.DataFrame:
     print(df)
     return df
 ```
+
+### Bokeh
+- Python library like matplotlib that directly creates HTML so you can have interactive plots
+- This could be implemented into a python backend and served as a json item to a Next.js frontend (for JO)
+- Could be useful for little modules
+- Bokeh can also do GIS natively...definitely could be useful
+
+
+### Decorators
+- Wrap a function with standard things it does before/after the function executes
+- dataclass is a good example

@@ -1,0 +1,27 @@
+2026-07-02 09:10:56,733 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:11:21,258 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:11:49,606 [INFO] bokeh-api: Getting chart of sales
+2026-07-02 09:11:49,904 [INFO] bokeh-api: -----------------------Query Result-----------------------
+2026-07-02 09:11:49,904 [INFO] bokeh-api:       ProductKey  CustomerKey       EnglishProductName  UnitPrice  OrderQuantity
+0            336        14501       Road-650 Black, 62   699.0982              1
+1            330        20042         Road-650 Red, 52   699.0982              1
+2            336        25249       Road-650 Black, 62   699.0982              1
+3            332        14520       Road-650 Black, 58   699.0982              1
+4            332        14560       Road-650 Black, 58   699.0982              1
+...          ...          ...                      ...        ...            ...
+3852         568        24757  Touring-3000 Yellow, 44   742.3500              1
+3853         604        23884       Road-750 Black, 44   539.9900              1
+3854         606        28517       Road-750 Black, 52   539.9900              1
+3855         584        26916       Road-750 Black, 58   539.9900              1
+3856         605        27473       Road-750 Black, 48   539.9900              1
+
+[3857 rows x 5 columns]
+2026-07-02 09:49:02,338 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:57:31,562 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:59:16,142 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:59:23,744 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:59:43,135 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:59:55,990 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 09:59:58,273 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 10:03:01,685 [DEBUG] asyncio: Using selector: SelectSelector
+2026-07-02 10:03:59,281 [DEBUG] asyncio: Using selector: SelectSelector

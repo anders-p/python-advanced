@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Script from "next/script";
 
+import RadioSelect from "@/components/RadioSelect"
+
 // Define a type for the global window object to include Bokeh safely in TypeScript
 declare global {
   interface Window {
@@ -15,6 +17,9 @@ export default function BokehChartPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [selectedPeriod, setSelectedPeriod] = useState("W")
+  const periodOptions = ["D", "W", "ME", "QE", "YE"]
+
   useEffect(() => {
     // Only fetch the chart data once the BokehJS script has finished loading
     if (!bokehLoaded) return;
@@ -22,7 +27,9 @@ export default function BokehChartPage() {
     const fetchAndRenderChart = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://127.0.0.1:8000/api/chart-data");
+        const response = await fetch(
+          `http://127.0.0.1:8000/chart/sales?period=${selectedPeriod}`
+        );
 
         if (!response.ok) {
           throw new Error(`Failed to fetch chart data: ${response.statusText}`);
@@ -51,7 +58,12 @@ export default function BokehChartPage() {
     };
 
     fetchAndRenderChart();
-  }, [bokehLoaded]);
+  }, [bokehLoaded, selectedPeriod]);
+
+  // When user selects a different period
+  const handlePeriodChange = (newPeriod: string) => {
+    setSelectedPeriod(newPeriod)
+  }
 
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
@@ -82,6 +94,16 @@ export default function BokehChartPage() {
           marginTop: "1rem"
         }}
       />
+      <RadioSelect
+        title="Select Metric"
+        options={periodOptions}
+        selectedValue={selectedPeriod}
+        onChange={handlePeriodChange}
+      />
+
+      <div className="text-sm text-gray-500">
+        The backend is now filtering data for: <strong className="text-gray-800">{selectedPeriod}</strong>
+      </div>
     </div>
   );
 }

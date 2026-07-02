@@ -1,9 +1,22 @@
-import pandas as pd
+import logging
 from bokeh.embed import json_item
 from bokeh.plotting import figure
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import pandas as pd
+from typing import Literal
+
+logging.basicConfig(
+    level=logging.DEBUG,  # Capture INFO, WARNING, ERROR, and CRITICAL logs
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        logging.FileHandler("app.log", encoding="utf-8"),  # Log to a file
+        logging.StreamHandler(),  # Log to the console
+    ],
+)
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Bokeh Data Streamer")
 
@@ -15,6 +28,29 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+def log_step(
+    df: pd.DataFrame,
+    step_name: str | None = None,
+    variant: Literal["info", "describe", "memory", "head", "verbose"] = "info",
+) -> pd.DataFrame:
+    """Print a dataframe during a chained method"""
+    if step_name:
+        logger.info(f"-----------------------{step_name}-----------------------")
+
+    match variant:
+        case "info":
+            logger.info(df.info())
+        case "describe":
+            logger.info(df.describe())
+        case "memory":
+            logger.info(df.memory_usage(deep=True))
+        case "head":
+            logger.info(df.head())
+        case "verbose":
+            logger.info(df)
+    return df
 
 
 @app.get("/api/chart-data")
