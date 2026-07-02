@@ -15,3 +15,14 @@ repos:
         args: [ --fix ]
       # Run the formatter.
       - id: ruff-format
+  - repo: local
+    # Run pytest tests
+    hooks:
+      - id: pytest
+        name: run pytest
+        # entry: bash -c "cd backend && python -m pytest"
+        entry: powershell -Command "cd backend; python -m pytest"
+        language: system
+        pass_filenames: false # Tells pre-commit to run all tests
+        files: ^backend/ # Only run if files in backend change
+        stages: [pre-commit]

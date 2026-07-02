@@ -6,7 +6,7 @@ import logging
 import pandas as pd
 from typing import Literal
 
-import config
+from app import config
 
 logger = logging.getLogger(__name__)
 

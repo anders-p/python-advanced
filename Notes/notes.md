@@ -97,3 +97,50 @@ def log_step(df: pd.DataFrame, step_name: str | None = None) -> pd.DataFrame:
 ### Decorators
 - Wrap a function with standard things it does before/after the function executes
 - dataclass is a good example
+
+### Tests
+
+#### Testing FastAPI
+**Test Client** - FastAPI provides a testing utility `TestClient` that simulates HTTP requests (like Postman or a frontend browser)
+
+**Fixtures** - In pytest, a fixture is a setup function that runs before your tests. It provides clean, reusable configurations (like creating a mock client or setting up temporary data) so you don't repeat yourself.
+
+**Mocking/Patching** - Don't want to hit real databases in tests, mocking intercepts these system calls and feeds predictable "fake" data instead
+- `MagicMock` -> Highly flexible "empty Python object" that automatically creates attributes and methods when you try to access them
+    - Will happily accept any method call, with any arguments, and return another mock object (by default)
+- `patch` -> Decorator or context manager that temporarily replaces an object at a specific import path with a Mock object
+
+```python
+# MagicMock Example
+from unittest.mock import MagicMock
+
+# Create a blank stunt double
+mock_api = MagicMock()
+
+# Configure what it should return when a specific method is called
+mock_api.get_user_status.return_value = {"status": "active"}
+
+# Run it
+result = mock_api.get_user_status(user_id=42)
+
+# Check the recording to see if it was called correctly
+mock_api.get_user_status.assert_called_once_with(user_id=42)
+print(result)  # Output: {"status": "active"}
+
+# ================================================ #
+
+# Patch Example
+from unittest.mock import patch
+import requests
+
+# Let's say we want to intercept requests.get so it doesn't hit the internet
+with patch('requests.get') as mock_get:
+    # Inside this block, requests.get is no longer the real function!
+    # It has been replaced by a MagicMock automatically.
+    mock_get.return_value.status_code = 200
+
+    response = requests.get("https://google.com")
+    print(response.status_code)  # Output: 200 (No internet connection actually happened)
+
+# Outside the block, requests.get is completely restored to normal
+```

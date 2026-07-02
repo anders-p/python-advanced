@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 import logging
 from typing import Literal
 
-from database import DataManager
+from app.database import DataManager
 
 logging.basicConfig(
     level=logging.DEBUG,  # Capture INFO, WARNING, ERROR, and CRITICAL logs
@@ -148,7 +148,8 @@ def get_sales_chart(
 #     return JSONResponse(content=chart_json)
 
 if __name__ == "__main__":
-    import uvicorn
+    print("NO!!")
+    # import uvicorn
 
     # Launch the server locally on port 8000
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    # uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
