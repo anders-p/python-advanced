@@ -75,7 +75,6 @@ class DataManager:
         )
 
         # Set index to datetime, and group by time period
-        ### TODO: Let user select time-period
         sales_df = (
             sales_df.set_index("OrderDate")
             .resample(period)["SalesAmount"]
