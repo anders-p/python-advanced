@@ -144,3 +144,65 @@ with patch('requests.get') as mock_get:
 
 # Outside the block, requests.get is completely restored to normal
 ```
+
+
+### AI Discussion w/ Mel
+- Setting up standard rules for the team
+- Probably will have to be in Kiro
+- Can maybe orchestrate Kiro as third-party agent within pipeline runners?
+
+
+Ideas from AI:
+- Rules should be short and modular (avoid filling up context window)
+- Write in clear imperative language (MUST/MUST NOT)
+- Priorities "Anti-Patterns" (DO NOT rules)
+    - AI is eager to generate code
+    - Can define boundaries for third-party packages etc.
+- Steering files should live in Git, and have same modification rules as code
+    - Need to go through merge request etc.
+- Establish clear boundaries on "vibe mode" vs "spec mode"
+    - Vibe mode for minor tasks, general development etc.
+    - Spec mode mandatory for any major tasks/changes
+- Add a linting step to the CI/CD pipeline that uses the AI to match code against the rules that are defined
+
+
+Common issues with Kiro and ideas on mitigations:
+- Code bloat/over-engineering
+    - Enforce minimalist/human-first code style in `structure.md`
+    - Demand low complexity
+    - Set strict file counts
+- Opaque credit burn/hidden costs
+    - Ban autonomous loops (human-in-the-loop **only**)
+    - Team should use vibe-mode first to flesh out ideas
+    - Set credit alerts?
+- Circular debugging loops and context failures
+    - Outlaw "fix-on-fix" -> If first fix fails, must stop and write a report instead
+    - Isolate context
+- Slow performance
+    - Optimise `.kiroignore`
+    - Tries to index entire workspace, not needed
+    - Keep context small
+- Executing dangerous commands
+    - Secure terminal scope
+    - Set execution mode to "Acknowledge"
+    - Isolate local environments
+
+
+```markdown
+# Examples
+
+structure.md
+## AI Code Economy and Simplicity Rules
+- CRITICAL: Prioritise code legibility and minimalism. Never create multi-file abstractions when a single file suffices.
+- FILE RESTRICTION: A single feature task MUST NOT generate more than 3 new files unless explicitly permitted in the task description.
+- NO BOILERPLATE: Do not generate placeholder files, empty utility modules, or excessive inline logging wrappers.
+- DRY vs. WET: Prefer slight duplication over complex, deeply nested abstractions that are difficult for humans to audit.
+
+
+tech.md
+## Error Handling and Debugging Guardrails
+- CIRCUIT BREAKER: If Kiro introduces a compilation or test failure, it is permitted EXACTLY ONE attempt to fix it.
+- If the first fix fails, Kiro MUST STOP generating code, revert its last change, and output a concise summary of the error to the chat panel.
+- NO AUXILIARY FILES: Kiro is strictly forbidden from creating new "debug" or "temporary" files to troubleshoot an existing bug.
+
+```
